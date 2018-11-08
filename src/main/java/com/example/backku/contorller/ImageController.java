@@ -1,6 +1,7 @@
-package com.example.backku;
+package com.example.backku.contorller;
 
 
+import com.example.backku.service.ImageService;
 import lombok.SneakyThrows;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -16,8 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URI;
 import java.util.List;
+
+import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 
 @Controller
 public class ImageController {
@@ -41,7 +43,7 @@ public class ImageController {
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=pics.zip");
+        headers.add(CONTENT_DISPOSITION, "attachment; filename=pics.zip");
 
 
         return ResponseEntity.ok()
