@@ -2,7 +2,6 @@ package com.example.backku.service;
 
 import com.example.backku.model.Pic;
 import com.example.backku.model.PicContainer;
-import com.example.backku.model.PicContainerImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +32,7 @@ public class PicService {
         ExecutorService executorService = Executors.newFixedThreadPool(CORES);
         BufferedImage overlay = container.getBackground().getImage();
         return executorService.invokeAll(
-                container.getImages().stream()
+                container.getPics().stream()
                         .map(pic -> (Callable<Pic>) () -> {
                             BufferedImage image = pic.getImage();
                             int w = Math.max(image.getWidth(), overlay.getWidth());
@@ -48,7 +47,7 @@ public class PicService {
         );
     }
 
-    public PicContainerImpl getPic(List<MultipartFile> pics, MultipartFile back) throws IOException {
+    public PicContainer getPic(List<MultipartFile> pics, MultipartFile back) throws IOException {
         Pic background = createPic(back, TEMP_PATH + back.getOriginalFilename());
         ArrayList<Pic> images = new ArrayList<>();
         for (MultipartFile file : pics) {
@@ -56,7 +55,7 @@ public class PicService {
             images.add(createPic(file, path));
         }
 
-        return new PicContainerImpl(background, images);
+        return new PicContainer(background, images);
     }
 
     private Pic createPic(MultipartFile multipartFile, String path) throws IOException {

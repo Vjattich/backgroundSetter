@@ -1,11 +1,25 @@
 package com.example.backku.model;
 
+import javafx.util.Pair;
+
 import java.util.List;
 
-public interface PicContainer {
+public class PicContainer {
 
-    Pic getBackground();
+    private final Pair<Pic, List<Pic>> pair;
 
-    List<Pic> getImages();
+    public PicContainer(Pic key, List<Pic> value) {
+        this.pair = new Pair<>(key, value);
+    }
+
+    public Pic getBackground() {
+        return pair.getKey();
+    }
+
+    public List<Pic> getPics() {
+        return pair.getValue();
+    }
 
 }
+
+
